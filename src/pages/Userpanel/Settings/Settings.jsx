@@ -4,60 +4,41 @@ import containerContext from '@/Context/containerContext'
 import { useMutation } from '@tanstack/react-query'
 import { updateUser } from '@/Utils/Fetchs'
 import { Loader2 } from 'lucide-react';
-import { HiOutlineUpload } from 'react-icons/hi'
 import swal from 'sweetalert'
 
 export default function Settings() {
 
   const contextData = useContext(containerContext);
   const formRef = useRef(null);
-  const [profileImage, setProfileImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null);
 
   const { register, handleSubmit, reset, formState: { errors, isDirty }, } = useForm({
     defaultValues: {
       username: contextData.userInfos?.username || '',
       email: contextData.userInfos?.email || '',
+      phone: contextData.userInfos?.phone || '',
       password: ''
     }
   })
-
-  // پیش نمایش تصویر آپلود شده
-  useEffect(() => {
-    if (profileImage) {
-      const objectUrl = URL.createObjectURL(profileImage)
-      setPreviewImage(objectUrl)
-      return () => URL.revokeObjectURL(objectUrl)
-    }
-  }, [profileImage])
 
   // رصد تغییرات userInfos
   useEffect(() => {
     reset({
       username: contextData.userInfos?.username || '',
       email: contextData.userInfos?.email || '',
+      phone: contextData.userInfos?.phone || '',
       password: ''
     })
   }, [contextData.userInfos, reset]);
 
   const updateMutation = useMutation({
     mutationFn: async (formData) => {
-      let avatarUrl = contextData.userInfos?.avatar;
-
-      // آپلود عکس جدید
-      const avatarFile = formData.get('avatar');
-
-      if (avatarFile && avatarFile.name !== 'undefined') {
-        const { url } = await uploadAvatar(avatarFile);
-        avatarUrl = url;
-      }
 
       // آماده سازی داده‌های آپدیت
       const updateData = {
         username: formData.get('username'),
         email: formData.get('email'),
+        phone: formData.get('email'),
         ...(formData.get('password') && { password: formData.get('passsword') }),
-        avatar: avatarUrl
       };
 
       // حذف فیلدهای خالی
@@ -72,8 +53,7 @@ export default function Settings() {
     onSuccess: (data) => {
       contextData.setUserInfos(prev => ({
         ...prev,
-        ...data,
-        avatar: data.avatar || prev.avatar
+        ...data
       }));
       swal({
         title: "موفق!",
@@ -81,7 +61,6 @@ export default function Settings() {
         icon: "success",
         button: "اوکی"
       })
-      setProfileImage(null)
       // بازنشانی فرم و غیر فعال کردن دکمه
       formRef.current.reset();
       reset();
@@ -95,7 +74,6 @@ export default function Settings() {
     formData.append('username', data.username);
     formData.append('email', data.email);
     data.password && formData.append('password', data.password);
-    profileImage && formData.append('avatar', profileImage);
 
     updateMutation.mutate(formData)
   };
@@ -108,38 +86,6 @@ export default function Settings() {
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-lg space-y-4"
       >
-        <div className="mb-6">
-          <label className="block mb-3">عکس پروفایل</label>
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <img
-                src={previewImage || contextData.userInfos?.avatar || '/default-avatar.jpg'}
-                className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
-                alt="پروفایل"
-              />
-            </div>
-            <label className="cursor-pointer">
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => {
-                  if (e.target.files[0]) {
-                    setProfileImage(e.target.files[0])
-                    // فعال کردن دکمه ذخیره تغییرات
-                    formRef.current.dispatchEvent(
-                      new Event('input', { bubbles: true })
-                    )
-                  }
-                }}
-              />
-              <div className="flex items-center gap-2 bg-orange-250 text-white px-4 py-2 rounded-lg hover:bg-orange-300 transition-colors">
-                <HiOutlineUpload className="text-lg" />
-                <span>آپلود عکس</span>
-              </div>
-            </label>
-          </div>
-        </div>
         <div>
           <label className="block mb-2">نام کاربری</label>
           <input
@@ -179,6 +125,20 @@ export default function Settings() {
           {errors.email && <p className='text-red-500 text-sm'>{errors.email.message}</p>}
         </div>
         <div>
+          <label className="block mb-2">شماره تلفن</label>
+          <input
+            type="tel"
+            {...register('phone', {
+              pattern: {
+                value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+                message: "شماره تلفن معتبر نیست"
+              }
+            })}
+            className='w-full p-2 rounded bg-[#151B20] outline-none'
+          />
+          {errors.phone && <p className='text-red-500 text-sm'>{errors.phone.message}</p>}
+        </div>
+        <div>
           <label className="block mb-2">رمز عبور جدید(اختیاری)</label>
           <input
             type="password"
@@ -201,7 +161,7 @@ export default function Settings() {
         </div>
         <button
           type='submit'
-          disabled={updateMutation.isPending || (!isDirty && !profileImage)}
+          disabled={updateMutation.isPending || !isDirty}
           className='bg-orange-250 px-6 py-2 rounded hover:bg-orange-300 disabled:opacity-50'
         >
           {updateMutation.isPending ? (
