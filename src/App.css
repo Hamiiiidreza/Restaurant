@@ -1,0 +1,586 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Vazirmatn";
+    src: local(Vazirmatn), url("/src/fonts/Vazirmatn-Regular.ttf") format("ttf");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Vazirmatn Medium";
+    src: local(Vazirmatn), url("/src/fonts/Vazirmatn-Medium.ttf") format("ttf");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Vazirmatn Bold";
+    src: local(Vazirmatn), url("src/fonts//Vazirmatn-Bold.ttf") format("ttf");
+    font-display: swap;
+  }
+
+  :root {
+    --primery-coler : #E1A772;
+    --background: 0 0% 100%; 
+    --foreground: 224 71.4% 4.1%; 
+    --card: 0 0% 100%; 
+    --card-foreground: 224 71.4% 4.1%; 
+    --popover: 0 0% 100%; 
+    --popover-foreground: 224 71.4% 4.1%; 
+    --primary: 220.9 39.3% 11%; 
+    --primary-foreground: 210 20% 98%; 
+    --secondary: 220 14.3% 95.9%; 
+    --secondary-foreground: 220.9 39.3% 11%; 
+    --muted: 220 14.3% 95.9%; 
+    --muted-foreground: 220 8.9% 46.1%; 
+    --accent: 220 14.3% 95.9%; 
+    --accent-foreground: 220.9 39.3% 11%; 
+    --destructive: 0 84.2% 60.2%; 
+    --destructive-foreground: 210 20% 98%; 
+    --border: 220 13% 91%; 
+    --input: 220 13% 91%; 
+    --ring: 224 71.4% 4.1%; 
+    --radius: 0.5rem; 
+    --chart-1: 12 76% 61%; 
+    --chart-2: 173 58% 39%; 
+    --chart-3: 197 37% 24%; 
+    --chart-4: 43 74% 66%; 
+    --chart-5: 27 87% 67%; 
+  }
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  
+  }
+  
+}
+
+@layer components {
+
+  .menu-item::after {
+    position: absolute;
+    content: "";
+    width: 7px;
+    height: 1.5px;
+    background-color: var(--primery-coler);
+    top: 30px;
+    right: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all ease 0.5s;
+    transform: translateX(50%);
+  }
+
+  .menu-item:hover::after {
+    right: 27%;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .menu-item {
+    position: relative;
+  }
+
+  .menu-item.active {
+    @apply text-orange-250
+  }
+
+  .shop-badge {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 25px;
+    font-weight: 500;
+    width: 22px;
+    height: 22px;
+    right: 23px;
+    top: -2px;
+    left: -7px;
+    color: #fff;
+    background: #d11124;
+    border-radius: 50%;
+  }
+
+  /* start Dropdown styles */
+
+  .submenu-dropdown {
+    position: absolute;
+    background-color: #12131B;
+    right: 0;
+    top: 90px;
+    z-index: 99;
+    width: 265px;
+    margin-top: 0;
+    display: block;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+    transform: translate3d(0, 18px, 0);
+  }
+
+  .menu-link:hover .submenu-dropdown {
+    opacity: 1;
+    visibility: visible;
+    top: 78px;
+  }
+
+  .submenu-link::after {
+    position: absolute;
+    top: 30%;
+    right: -25px;
+    z-index: 999;
+    content: "";
+    width: 3px;
+    height: 0;
+    transform: scaleY(0);
+    background-color: var(--primery-coler);
+    visibility: hidden;
+    opacity: 0;
+    transition: all ease 0.5s;
+  }
+
+  .submenu-item:last-child,.subsubmenu-dropdown li:last-child a{
+    border: 0 !important;
+  }
+
+  .submenu-link:hover::after {
+    visibility: visible;
+    opacity: 1;
+    height: 50%;
+    transform: scaleY(1);
+  }
+
+  .submenu-link {
+    position: relative;
+  }
+
+  .subsubmenu-dropdown {
+    position: absolute;
+    background-color: #12131B;
+    z-index: 99;
+    width: 265px;
+    margin-top: 0;
+    display: block;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 0;
+    top: -7px;
+    opacity: 0;
+    right: -270px;
+    margin-top: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+    transform: translate3d(0, 18px, 0);
+    ;
+  }
+
+  .submenu-item:hover .subsubmenu-dropdown {
+    opacity: 1;
+    visibility: visible;
+    top: -19px;
+  }
+
+  .submenu-item {
+    position: relative;
+  }
+
+  .subsubmenu-link::after {
+    position: absolute;
+    top: 30%;
+    right: -25px;
+    content: "";
+    width: 3px;
+    height: 0;
+    transform: scaleY(0);
+    background-color: var(--primery-coler);
+    visibility: hidden;
+    opacity: 0;
+    transition: all ease 0.5s;
+  }
+
+  .subsubmenu-link:hover::after {
+    visibility: visible;
+    opacity: 1;
+    height: 50%;
+    transform: scaleY(1);
+  }
+
+  .subsubmenu-link {
+    position: relative;
+  }
+
+  /* Finish Dropdown stayles */
+
+  /* start Footer styles */
+
+  .footer-shape {
+    animation: footershape 3000ms infinite ease-in-out;
+  }
+
+  @keyframes footershape {
+    0% {
+      transform: translateX(0px);
+    }
+
+    50% {
+      transform: translateX(20px);
+    }
+
+    100% {
+      transform: translateX(0px);
+    }
+  }
+
+  .footer-btn {
+    position: absolute;
+    white-space: nowrap;
+    top: 7px;
+    left: 5px;
+    height: calc(100%-10px);
+    border-radius: 50px;
+    font-size: 20px;
+    padding: 10px 39px;
+    background-color: var(--primery-coler);
+    transition: all 200ms linear;
+    color: white;
+    font-weight: 700;
+    border: 0;
+  }
+
+  .footer-btn:hover {
+    background-color: #722700;
+  }
+
+  .footer-widget::after {
+    position: absolute;
+    top: 50%;
+    left: 75px;
+    content: "";
+    width: 14px;
+    height: 160px;
+    color: #27282C;
+    background-image: url(https://rtlme.ir/Etar/assets/img/shape-2.webp);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 14px 160px;
+    transform: translateY(-50%);
+  }
+
+  .footer-widget:last-child::after {
+    position: absolute;
+    top: 49%;
+    left: 28px;
+    content: "";
+    width: 1px;
+    height: 20px;
+    transform: translateY(-50%);
+    background-color: #27282C;
+  }
+
+  .footer-widget {
+    position: relative;
+  }
+
+  .footer-widget_link::before {
+    position: absolute;
+    top: 9px;
+    right: 0;
+    content: "";
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: all ease 0.3s;
+  }
+
+  .footer-widget_link:hover::before {
+    background-color: var(--primery-coler);
+  }
+
+  .footer-widget_link::after {
+    position: absolute;
+    bottom: -3px;
+    right: 0;
+    content: "";
+    width: 0;
+    height: 1px;
+    background-color: var(--primery-coler);
+    transition: all ease 0.5s;
+  }
+
+  .footer-widget_link:hover::after {
+    width: 100%;
+  }
+
+  .footer-widget_link:hover {
+    color: var(--primery-coler);
+  }
+
+  .footer-widget_link {
+    position: relative;
+    transition: all ease 0.5s;
+  }
+
+  .footer-widget_item::before {
+    position: absolute;
+    top: 12px;
+    right: 0;
+    content: "";
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background-color: var(--primery-coler);
+  }
+
+  .footer-widget_item {
+    position: relative;
+  }
+
+  .footer-widget_icon::after {
+    position: absolute;
+    top: 55%;
+    left: -15px;
+    content: "";
+    width: 1px;
+    height: 20px;
+    transform: translateY(-50%);
+    background-color: #27282C;
+  }
+
+  .footer-widget_icon {
+    position: relative;
+  }
+
+  .footer-bottom_link::after {
+    position: absolute;
+    bottom: -3px;
+    right: 0;
+    content: "";
+    width: 0;
+    height: 1px;
+    background-color: var(--primery-coler);
+    transition: all ease 0.5s;
+  }
+
+  .footer-bottom_link:hover::after{
+    width: 100%;
+  }
+
+  .footer-bottom_link {
+    position: relative;
+    display: inline-block;
+  }
+
+  .footer-bottom_link-icon::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    content: "";
+    width: 0;
+    height: 100%;
+    z-index: -1;
+    transition: all ease 0.5s;
+  }
+
+  .footer-bottom_link-icon:hover::after {
+    width: 100%;
+    background-color: var(--primery-coler);
+    color: #fff;
+  }
+
+  .footer-bottom_link-icon {
+    position: relative;
+  }
+
+  /* Finish Footer stayles */
+
+  /* Start Header stayles */
+
+  .header-img {
+    animation: headershape 20s infinite linear;
+  }
+
+  @keyframes headershape {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(-359deg);
+    }
+  }
+
+  .text-fill-3 {
+    -webkit-text-fill-color: var(--primery-coler);
+  }
+
+  .text-stroke-3 {
+    -webkit-text-stroke: 1px white;
+  }
+
+  /* Finish Header stayles */
+
+  /* Start About stayles */
+
+  .about-btn::before {
+    position: absolute;
+    top: -5%;
+    right: -5%;
+    content: "";
+    width: 0%;
+    height: 110%;
+    z-index: -1;
+    border-radius: 5px;
+    transform: skewX(-15deg);
+    overflow: hidden;
+    transition: all ease 0.5s;
+    background-color: #732701;
+    opacity: 0;
+  }
+
+  .about-btn:hover::before {
+    opacity: 1;
+    width: 110%;
+  }
+
+  .about-btn {
+    position: relative;
+  }
+
+  /* Finish About stayles */
+
+  /* Start RecipeMenu stayles */
+
+  .recipe-menu_btn::before {
+    position: absolute;
+    top: -5%;
+    right: -5%;
+    content: "";
+    width: 0%;
+    height: 110%;
+    z-index: -1;
+    border-radius: 5px;
+    transform: skewx(-15deg);
+    overflow: hidden;
+    transition: all ease 0.5s;
+  }
+
+  .recipe-menu_btn:hover::before {
+    background-color: var(--primery-coler);
+    width: 110%;
+  }
+
+  .recipe-menu_btn {
+    position: relative;
+  }
+
+  .recipe-info {
+    width: calc(100%-185px);
+  }
+
+  .recipe-title::after {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    content: "";
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed rgb(255, 255, 255);
+    z-index: -1;
+  }
+
+  .recipe-title {
+    position: relative;
+  }
+
+  /* Finish RecipeMenu stayles */
+
+  /* Start Category stayles */
+
+  .cat-img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-image: url(https://rtlme.ir/Etar/assets/img/recipes/cat-shape.webp);
+    background-position: top right;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  /* Finish Category stayles */
+
+  /* Start Bestservice stayles */
+
+  .text-fill-1 {
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-stroke-1 {
+    -webkit-text-stroke: 1px var(--primery-coler);
+  }
+
+  .text-fill-2 {
+    -webkit-text-fill-color: #D2D2D2;
+  }
+  
+  .text-stroke-2 {
+-webkit-text-stroke: 1px transparent;
+  }
+
+
+  /* Finish Bestservice stayles */
+  
+
+/* Start Userpanel/Sidebar stayles */
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+}
+
+/* Finish Userpanel/Sidebar stayles */
+
+@layer base {
+  * {
+    @apply border-border;
+  
+  }
+  body {
+    @apply bg-background text-foreground;
+  
+  }
+  
+}

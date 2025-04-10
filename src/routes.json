@@ -1,0 +1,8 @@
+{
+    "routes": {
+        "/cart/:userId": "/cart/:userId",
+        "/cart": "/cart",
+        "/orders": "/orders?userId=:userId",
+        "/coupons": "/coupons?userId=:userId&code=:code"
+    }
+}
