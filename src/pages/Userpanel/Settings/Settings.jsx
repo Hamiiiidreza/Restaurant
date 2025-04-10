@@ -31,14 +31,14 @@ export default function Settings() {
   }, [contextData.userInfos, reset]);
 
   const updateMutation = useMutation({
-    mutationFn: async (formData) => {
+    mutationFn: async (formValues) => {
 
       // آماده سازی داده‌های آپدیت
       const updateData = {
-        username: formData.get('username'),
-        email: formData.get('email'),
-        phone: formData.get('email'),
-        ...(formData.get('password') && { password: formData.get('passsword') }),
+        username: formValues.username,
+        email: formValues.email,
+        ...(formValues.phone && { phone: formValues.phone }),
+        ...(formValues.password && { password: formValues.password }),
       };
 
       // حذف فیلدهای خالی
@@ -69,13 +69,7 @@ export default function Settings() {
 
   const onSubmit = (data) => {
 
-    const formData = new FormData();
-
-    formData.append('username', data.username);
-    formData.append('email', data.email);
-    data.password && formData.append('password', data.password);
-
-    updateMutation.mutate(formData)
+    updateMutation.mutate(data)
   };
 
   return (
