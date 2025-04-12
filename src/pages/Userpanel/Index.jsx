@@ -105,7 +105,7 @@ export default function Index() {
                         <span className='text-sm overflow-hidden text-ellipsis whitespace-nowrap mt-2.5'>سه شنبه 9 بهمن 1403</span>
                         <div className='relative block bg-gradient-to-b from-white/40 to-white/0 to-100% shadow-md p-1 rounded-full size-24 mt-3.5 mb-11 mx-auto'>
                             <img
-                                src={contextData.userInfos?.avatar || '/default-avatar.jpg'}
+                                src={contextData.userInfos?.avatar || "/Img/user-1.jpg"}
                                 alt="پروفایل"
                                 className='rounded-full'
                             />
