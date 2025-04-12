@@ -128,7 +128,7 @@ export default function Settings() {
                 message: "شماره تلفن معتبر نیست"
               }
             })}
-            className='w-full p-2 rounded bg-[#151B20] outline-none'
+            className='w-full p-2 rounded bg-[#151B20] outline-none text-right'
           />
           {errors.phone && <p className='text-red-500 text-sm'>{errors.phone.message}</p>}
         </div>
