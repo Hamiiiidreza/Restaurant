@@ -7,7 +7,7 @@ import containerContext from '@/Context/containerContext';
 
 export default function Neworder() {
 
-    const { data: products } = useGetData(['products'], getProducts);
+    const { data: products, isLoading } = useGetData(['products'], getProducts);
     const contextData = useContext(containerContext);
 
     const formatPrice = (price) => {
@@ -20,6 +20,7 @@ export default function Neworder() {
             contextData.setFilteredProducts(products);
         }
     }, [products]);
+
 
     return (
         <div className='p-8'>

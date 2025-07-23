@@ -22,33 +22,34 @@
   }
 
   :root {
-    --primery-coler : #E1A772;
-    --background: 0 0% 100%; 
-    --foreground: 224 71.4% 4.1%; 
-    --card: 0 0% 100%; 
-    --card-foreground: 224 71.4% 4.1%; 
-    --popover: 0 0% 100%; 
-    --popover-foreground: 224 71.4% 4.1%; 
-    --primary: 220.9 39.3% 11%; 
-    --primary-foreground: 210 20% 98%; 
-    --secondary: 220 14.3% 95.9%; 
-    --secondary-foreground: 220.9 39.3% 11%; 
-    --muted: 220 14.3% 95.9%; 
-    --muted-foreground: 220 8.9% 46.1%; 
-    --accent: 220 14.3% 95.9%; 
-    --accent-foreground: 220.9 39.3% 11%; 
-    --destructive: 0 84.2% 60.2%; 
-    --destructive-foreground: 210 20% 98%; 
-    --border: 220 13% 91%; 
-    --input: 220 13% 91%; 
-    --ring: 224 71.4% 4.1%; 
-    --radius: 0.5rem; 
-    --chart-1: 12 76% 61%; 
-    --chart-2: 173 58% 39%; 
-    --chart-3: 197 37% 24%; 
-    --chart-4: 43 74% 66%; 
-    --chart-5: 27 87% 67%; 
+    --primery-coler: #E1A772;
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 220.9 39.3% 11%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 71.4% 4.1%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
   }
+
   .dark {
     --background: 224 71.4% 4.1%;
     --foreground: 210 20% 98%;
@@ -74,40 +75,12 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-  
+
   }
-  
+
 }
 
 @layer components {
-
-  .menu-item::after {
-    position: absolute;
-    content: "";
-    width: 7px;
-    height: 1.5px;
-    background-color: var(--primery-coler);
-    top: 30px;
-    right: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: all ease 0.5s;
-    transform: translateX(50%);
-  }
-
-  .menu-item:hover::after {
-    right: 27%;
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .menu-item {
-    position: relative;
-  }
-
-  .menu-item.active {
-    @apply text-orange-250
-  }
 
   .shop-badge {
     position: absolute;
@@ -127,116 +100,106 @@
     border-radius: 50%;
   }
 
+  /* Start Scrollbar stayles */
+
+  /* Webkit-based browsers (Chrome, Edge, Safari) */
+  .scrollbar-minimal::-webkit-scrollbar {
+    width: 8px;
+    /* عرض اسکرول‌بار */
+    height: 8px;
+    /* ارتفاع اسکرول‌بار */
+  }
+
+  /* حذف فلش‌های بالا/پایین */
+  .scrollbar-minimal::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  .scrollbar-minimal::-webkit-scrollbar-track {
+    background: transparent;
+    /* مخفی کردن track */
+  }
+
+  .scrollbar-minimal::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* رنگ پیش‌فرض thumb */
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  /* Firefox */
+  @supports (scrollbar-width: thin) {
+    .scrollbar-minimal {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+      /* رنگ پیش‌فرض */
+    }
+  }
+
+  /* Finish Scrollbar stayles */
+
   /* start Dropdown styles */
 
+  .custom-after::after {
+    @apply absolute content-[''] w-[7px] h-[1.5px] bg-orange-250 top-[25px] mt-2 right-0 opacity-0 invisible transition-all ease-in duration-300;
+  }
+
+  .menu-link.active::after,
+  .menu-link:hover::after {
+    @apply opacity-100 visible right-[20%];
+  }
+
+  .submenu-item:last-child {
+    @apply border-b-0;
+  }
+
+  .subsubmenu-dropdown li:last-child .subsubmenu-link {
+    @apply border-b-0;
+  }
+
   .submenu-dropdown {
-    position: absolute;
-    background-color: #12131B;
-    right: 0;
-    top: 90px;
-    z-index: 99;
-    width: 265px;
-    margin-top: 0;
-    display: block;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.2s ease-in-out;
-    transform: translate3d(0, 18px, 0);
+    @apply absolute bg-[#12131B] right-0 top-[90px] z-[99] w-[265px] mt-0 block py-[10px] px-[25px] border-none rounded-none opacity-0 invisible transition-all duration-200 ease-in-out transform translate-y-[18px];
   }
 
   .menu-link:hover .submenu-dropdown {
-    opacity: 1;
-    visibility: visible;
-    top: 78px;
+    @apply opacity-100 visible top-[78px];
   }
 
   .submenu-link::after {
-    position: absolute;
-    top: 30%;
-    right: -25px;
-    z-index: 999;
-    content: "";
-    width: 3px;
-    height: 0;
-    transform: scaleY(0);
-    background-color: var(--primery-coler);
-    visibility: hidden;
-    opacity: 0;
-    transition: all ease 0.5s;
+    @apply absolute content-[''] w-[3px] top-[30%] -right-[25px] z-[999] h-0 scale-y-0 bg-[var(--primery-coler)] invisible opacity-0 transition-all ease-in duration-300;
   }
 
-  .submenu-item:last-child,.subsubmenu-dropdown li:last-child a{
-    border: 0 !important;
-  }
-
+  .submenu-link.active::after,
   .submenu-link:hover::after {
-    visibility: visible;
-    opacity: 1;
-    height: 50%;
-    transform: scaleY(1);
+    @apply visible opacity-100 h-1/2 scale-y-100;
   }
 
   .submenu-link {
-    position: relative;
+    @apply relative;
   }
 
   .subsubmenu-dropdown {
-    position: absolute;
-    background-color: #12131B;
-    z-index: 99;
-    width: 265px;
-    margin-top: 0;
-    display: block;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 0;
-    top: -7px;
-    opacity: 0;
-    right: -270px;
-    margin-top: 0;
-    visibility: hidden;
-    transition: all 0.2s ease-in-out;
-    transform: translate3d(0, 18px, 0);
-    ;
+    @apply absolute bg-[#12131B] z-[99] w-[265px] mt-0 block py-[10px] px-[25px] border-none rounded-none opacity-0 -top-[7px] -right-[270px] invisible transition-all duration-200 ease-in-out transform translate-y-[18px];
   }
 
   .submenu-item:hover .subsubmenu-dropdown {
-    opacity: 1;
-    visibility: visible;
-    top: -19px;
-  }
-
-  .submenu-item {
-    position: relative;
+    @apply opacity-100 visible -top-[19px];
   }
 
   .subsubmenu-link::after {
-    position: absolute;
-    top: 30%;
-    right: -25px;
-    content: "";
-    width: 3px;
-    height: 0;
-    transform: scaleY(0);
-    background-color: var(--primery-coler);
-    visibility: hidden;
-    opacity: 0;
-    transition: all ease 0.5s;
+    @apply absolute content-[''] w-[3px] top-[30%] -right-[25px] h-0 scale-y-0 bg-[var(--primery-coler)] invisible opacity-0 transition-all ease-in duration-300;
   }
 
+  .subsubmenu-link.active::after,
   .subsubmenu-link:hover::after {
-    visibility: visible;
-    opacity: 1;
-    height: 50%;
-    transform: scaleY(1);
+    @apply visible opacity-100 h-1/2 scale-y-100;
   }
 
   .subsubmenu-link {
-    position: relative;
+    @apply relative;
   }
+
 
   /* Finish Dropdown stayles */
 
@@ -391,7 +354,7 @@
     transition: all ease 0.5s;
   }
 
-  .footer-bottom_link:hover::after{
+  .footer-bottom_link:hover::after {
     width: 100%;
   }
 
@@ -447,6 +410,14 @@
     -webkit-text-stroke: 1px white;
   }
 
+  .text-fill-4 {
+    -webkit-text-fill-color: #2c2d34;
+  }
+
+  .text-stroke-4 {
+    -webkit-text-stroke: 1px #66666b;
+  }
+
   /* Finish Header stayles */
 
   /* Start About stayles */
@@ -478,7 +449,7 @@
 
   /* Finish About stayles */
 
-  /* Start RecipeMenu stayles */
+  /* Start Recipe stayles */
 
   .recipe-menu_btn::before {
     position: absolute;
@@ -554,16 +525,16 @@
   .text-fill-2 {
     -webkit-text-fill-color: #D2D2D2;
   }
-  
+
   .text-stroke-2 {
--webkit-text-stroke: 1px transparent;
+    -webkit-text-stroke: 1px transparent;
   }
 
 
   /* Finish Bestservice stayles */
-  
 
-/* Start Userpanel/Sidebar stayles */
+
+  /* Start Userpanel/Sidebar stayles */
 
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
@@ -576,11 +547,12 @@
 @layer base {
   * {
     @apply border-border;
-  
+
   }
+
   body {
     @apply bg-background text-foreground;
-  
+
   }
-  
+
 }

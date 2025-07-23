@@ -91,7 +91,8 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				growImg: 'growImg 0.3s cubic-bezier(0,0,.7,1)',
-				slideIn: 'slideIn 0.3s ease-out'
+				slideIn: 'slideIn 0.3s ease-out',
+				fadeIn: '0.3s ease-out forwards',
 			},
 			keyframes: {
 				float: {
@@ -144,7 +145,17 @@ export default {
 						opacity: 1,
 						transform: 'translatey(0)'
 					}
-				}
+				},
+				fadeIn: {
+					from: {
+						opacity: 0,
+						transform: 'translateY(-20px) scale(0.95)',
+					},
+					to: {
+						opacity: 1,
+						transform: 'translateY(0) scale(1)',
+					}
+				},
 			},
 			width: {
 				custom: 'calc(100%-100px)'

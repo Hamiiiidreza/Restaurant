@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { getOrders, getCoupons, getReviews } from '@/Utils/Fetchs'
 import { useQueries } from '@tanstack/react-query';
+import containerContext from '@/Context/containerContext';
 
 export default function Dashboard() {
+  const contextData = useContext(containerContext);
   const result = useQueries({
     queries: [
       { queryKey: ['orders'], queryFn: getOrders },
@@ -16,10 +18,6 @@ export default function Dashboard() {
     { data: coupons, isLoading: couponsLoading, error: couponsError },
     { data: reviews, isLoading: reviewsLoading, error: reviewsError }
   ] = result;
-
-  if (ordersLoading || couponsLoading || reviewsLoading) {
-    return <div>در حال بارگیری...</div>;
-  }
 
   if (ordersError || couponsError || reviewsError) {
     return <div>خطا در دریافت داده ها</div>;

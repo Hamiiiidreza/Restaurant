@@ -16,6 +16,8 @@ import Discounts from "./pages/Userpanel/Discounts/Discounts"
 import Reviews from "./pages/Userpanel/Reviews/Reviews"
 import Settings from "./pages/Userpanel/Settings/Settings"
 import Reservation from "./pages/Userpanel/Reservation/Reservation"
+import ReservationCart from "./components/ReservationCart/Reservationcart"
+import ReservationCheckout from "./components/ReservationCheckout/ReservationCheckout"
 
 const routes = [
     { path: '/', element: <Index /> },
@@ -37,6 +39,8 @@ const routes = [
             { path: "settings", element: <Settings /> },
             { path: "reviews", element: <Reviews /> },
             { path: "table-Reservation", element: <Reservation /> },
+            { path: "ReservationCart", element: <ReservationCart /> },
+            { path: "ReservationCheckout", element: <ReservationCheckout /> },
         ]
 
     },

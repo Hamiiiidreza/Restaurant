@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
 import Sidebar from '@/components/Userpanel/Sidebar/Sidebar'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { HiOutlineLogin } from "react-icons/hi";
 import { GiChefToque } from "react-icons/gi";
-import { Outlet } from 'react-router-dom';
+import { Outlet, useOutlet } from 'react-router-dom';
 import containerContext from '@/Context/containerContext';
 import swal from 'sweetalert';
 import { MdOutlineLightMode } from "react-icons/md";
@@ -12,6 +12,8 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import Cartpanel from '@/components/Userpanel/Cartpanel/Cartpanel';
 import Cookies from 'js-cookie';
 import { updateUserTheme } from '@/Utils/Fetchs';
+import PagesSkeleton from '@/components/PageSkeleton/PagesSkeleton';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Index() {
 
@@ -19,6 +21,29 @@ export default function Index() {
     const [showBackdrop, setShowBackdrop] = useState(false);
     const contextData = useContext(containerContext);
     const navigate = useNavigate();
+    const location = useLocation();
+    const [prevPath, setPrevPath] = useState(location.pathname);
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    // مدیریت تغییر مسیر و انیمیشن‌ها
+    useEffect(() => {
+        if (location.pathname !== prevPath) {
+            setIsAnimating(true);
+
+            // شروع انیمیشن خروج
+            setTimeout(() => {
+                // بعد از 300ms انیمیشن خروج، اسکلتون را نمایش می‌دهیم
+                contextData.startSkeleton();
+
+                // بعد از 2 ثانیه، انیمیشن ورود را شروع می‌کنیم
+                setTimeout(() => {
+                    setPrevPath(location.pathname);
+                    setIsAnimating(false);
+                }, 2000);
+            }, 0.1);
+        }
+    }, [location.pathname, prevPath, contextData]);
+
 
     useEffect(() => {
         if (contextData.userInfos?.theme) {
@@ -99,7 +124,7 @@ export default function Index() {
                             onClick={handleClose}>
                         </div>
                     )}
-                <aside className="w-[21%] fixed top-[0px] bottom-0 flex flex-col shrink-0 z-30 overflow-y-auto h-full dark:bg-[#151B20] bg-gray-200 text-gray-800 dark:text-white rounded-lg px-8 py-5 hide-scrollbar transition-colors duration-300">
+                <aside className="w-[21%] fixed top-[0px] bottom-0 flex flex-col shrink-0 z-30 overflow-y-auto scrollbar-minimal h-full dark:bg-[#151B20] bg-gray-200 text-gray-800 dark:text-white rounded-lg px-8 py-5 hide-scrollbar transition-colors duration-300">
                     <div className='relative text-white text-center pt-5 pb-3 px-3 h-[140px] mb-20 bg-orange-250 rounded-sm'>
                         <span className="block overflow-hidden text-ellipsis whitespace-nowrap">{contextData.userInfos?.username}</span>
                         <span className='text-sm overflow-hidden text-ellipsis whitespace-nowrap mt-2.5'>سه شنبه 9 بهمن 1403</span>
@@ -116,14 +141,14 @@ export default function Index() {
                     </div>
                     <Sidebar className='w-full' />
                     <a href=""
-                        className='flex items-center justify-between dark:text-[#9ca3af] text-gray-800 dark:bg-[#2D3A3E] bg-gray-300 w-full p-4 rounded-lg transition-colors duration-300'
+                        className='flex items-center justify-between dark:text-[#9ca3af] text-gray-800 dark:bg-[#2D3A3E] bg-gray-300 w-full px-3 py-4 rounded-lg transition-colors duration-300'
                         onClick={logoutUser}
                     >
                         خروج از حساب کاربری
                         <HiOutlineLogin className='size-6' />
                     </a>
                 </aside>
-                <section className='w-full mr-[21%]'>
+                <section className='w-full mr-[21%] overflow-x-hidden'>
                     <header className='flex items-center justify-between dark:bg-[#151B20] bg-gray-200 p-7 mb-8 transition-colors duration-300'>
                         <div className='flex items-center'>
                             <Link to="/" className='pl-6 ml-6 border-l border-l-neutral-200 border-opacity-20 gap-x-2'>
@@ -159,8 +184,55 @@ export default function Index() {
                             </div>
                         </div>
                     </header>
-                    <Outlet />
+                    <div className="p-8">
+                        <div className="relative overflow-x-hidden p-6 bg-blue-300/10 rounded-lg">
+                            <AnimatePresence mode='wait'>
+                                {isAnimating ? (
+                                    <>
+                                        {/* انیمیشن خروج صفحه فعلی */}
+                                        {prevPath && (
+                                            <motion.div
+                                                key={`exit-${prevPath}`}
+                                                initial={{ opacity: 1, x: 0 }}
+                                                animate={{ opacity: 0, x: -80 }}
+                                                exit={{ opacity: 0 }}
+                                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                                                className='absolute w-full'
+                                            >
+                                                <Outlet context={{ path: prevPath }} />
+                                            </motion.div>
+                                        )}
 
+                                        {/* اسکلتون */}
+                                        {contextData.showSkeleton && (
+                                            <motion.div
+                                                key="skeleton"
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                exit={{ opacity: 0 }}
+                                                transition={{ duration: 0.2 }}
+                                                className='relative'
+                                            >
+                                                <PagesSkeleton />
+                                            </motion.div>
+                                        )}
+                                    </>
+                                ) : (
+
+                                    <motion.div
+                                        key={`enter-${location.pathname}`}
+                                        initial={{ opacity: 0, x: 80 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                                        className='relative'
+                                    >
+                                        <Outlet />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </div>
                 </section>
             </section>
         </>

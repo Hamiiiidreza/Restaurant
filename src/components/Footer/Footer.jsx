@@ -16,7 +16,7 @@ export default function Footer({ bgColor }) {
             <div className='col-xl-6 col-lg-7 col-md-8 px-3 grow'>
               <h2 className='text-4xl text-white font-bold mb-5'>اطلاع رسانی ما</h2>
               <form action="#" className='relative'>
-                <input type="email" placeholder='ایمیل' className='!w-full h-[60px] bg-[#25262D] text-white rounded-[50px] border-none py-3.5 pr-[30px] pl-[175px]' />
+                <input type="email" placeholder='ایمیل' className='!w-full h-[60px] bg-[#25262D] text-white rounded-[50px] border-none py-3.5 pr-[30px] pl-[175px] outline-none' />
                 <button type='submit' className='footer-btn'>دنبال کردن</button>
               </form>
             </div>

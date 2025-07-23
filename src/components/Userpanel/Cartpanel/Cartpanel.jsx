@@ -54,7 +54,7 @@ const Cartpanel = ({ isOpen, onClose }) => {
                     <span className='font-bold'>سبد خرید من</span>
                     <span className='font-bold text-slate-500'>{contextData.cartItems} محصول</span>
                 </div>
-                <div className='cart-body px-5 space-y-4 max-h-[228px] overflow-y-auto hide-scrollbar'>
+                <div className='cart-body px-5 space-y-4 max-h-[228px] overflow-y-auto scrollbar-minimal'>
                     {
                         contextData.userCart?.length === 0 ? (
                             <div className="flex flex-col items-center py-4 dark:text-gray-400 text-slate-500">

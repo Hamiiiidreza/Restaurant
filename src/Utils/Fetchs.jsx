@@ -217,16 +217,47 @@ export const updateUser = async (userId, data) => {
   return response.json()
 }
 
-export async function createReservation(reservationData) {
+export const createReservation = async (data) => {
   const res = await fetch('http://localhost:4000/reservations', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(reservationData)
-  })
-  return res.json()
+    body: JSON.stringify({
+      ...data,
+      date: new Date().toISOString(),
+      status: 'pending',
+      paymentStatus: 'unpaid'
+    })
+  });
+  return res.json();
 };
 
-export async function getReservationsByUser(userId) {
-  const res = await fetch(`http://localhost:4000/reservations?userId=${userId}&_sort=date&_order=desc`)
-  return res.json()
+export const getReservationsByUser = async (userId) => {
+  const res = await fetch(`http://localhost:4000/reservations?userId=${userId}&status=confirmed&_sort=date&_order=desc`);
+  if (!res.ok) throw new Error('Failed to fetch reservations');
+  return res.json();
+};
+
+export const updateReservation = async (id, data) => {
+  const res = await fetch(`http://localhost:4000/reservations/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  return res.json();
+};
+
+export const deleteReservation = async (id) => {
+  const res = await fetch(`http://localhost:4000/reservations/${id}`, {
+    method: 'DELETE'
+  });
+  return res.json();
+};
+
+export const getTables = () => fetch('http://localhost:4000/tables')
+  .then(res => res.json());
+
+
+export const getReservationsByDate = async (date) => {
+  const response = await fetch(`http://localhost:4000/reservations?date=${date}`);
+  return await response.json();
 };

@@ -9,7 +9,7 @@ export default function Orders() {
   const [expandedOrderId, setExpandedOrderId] = useState(null);
   const contextData = useContext(containerContext);
 
-  const { data: orders } = useGetData(["orders", contextData.userInfos?.id],
+  const { data: orders, isLoading } = useGetData(["orders", contextData.userInfos?.id],
     () => getOrders(contextData.userInfos?.id),
     { enabled: !!contextData.userInfos?.id }
   );
@@ -17,6 +17,7 @@ export default function Orders() {
   const toggleOrder = (orderId) => {
     setExpandedOrderId(prev => prev === orderId ? null : orderId);
   };
+
 
   return (
     <div className='p-8 h-full flex flex-col'>

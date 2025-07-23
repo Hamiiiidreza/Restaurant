@@ -45,8 +45,6 @@ export default function Discounts() {
         }
     });
 
-    if (isLoading) return <div className="text-center py-4">در حال بارگیری کوپن‌ها...</div>;
-
     if (error) return <div className="text-red-500 text-center py-4">خطا در بارگیری داده‌ها</div>;
 
     return (

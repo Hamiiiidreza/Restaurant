@@ -11,7 +11,7 @@ export default function Shopgrid() {
         <Navbar />
         <Topbar />
         <Breadcrumb name="فروشگاه" />
-        <Products displayCount={9} />
+        <Products displayCount={8} />
         <Footer bgColor="#151B20" />
     </div>
   )

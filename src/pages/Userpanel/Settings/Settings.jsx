@@ -11,7 +11,7 @@ export default function Settings() {
   const contextData = useContext(containerContext);
   const formRef = useRef(null);
 
-  const { register, handleSubmit, reset, formState: { errors, isDirty }, } = useForm({
+  const { register, handleSubmit, reset, isLoading, formState: { errors, isDirty }, } = useForm({
     defaultValues: {
       username: contextData.userInfos?.username || '',
       email: contextData.userInfos?.email || '',

@@ -28,6 +28,23 @@ const containerContext = createContext({
     setCoupons: null,
     applyCoupon: () => { },
     allReviews: null,
+    addReservation: () => { },
+    removeReservation: (id) => { },
+    updateReservation: (reservationId, productId, action) => { },
+    availableTables: null,
+    setAvailableTables: () => { },
+    updateTableCount: (tableType, action, max) => { },
+    updateFoodCount: (foodId, action) => { },
+    calculateTotal: () => { },
+    menuItems: [],
+    loadMenuItems: () => { },
+    reservationData: null,
+    setReservationData: () => { },
+    loadUserReservations: () => { },
+    showActiveReservationsNotification: () => { },
+    loadReservationDataFromCookie: () => { },
+    showSkeleton: false,
+    startSkeleton: () => { },
 });
 
 export default containerContext;

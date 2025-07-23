@@ -7,7 +7,7 @@ import { useGetData } from '@/hooks/UseGetData';
 import { getReviews } from '@/Utils/Fetchs';
 import { IoMdStar, IoMdStarHalf , IoMdStarOutline  } from "react-icons/io";
 
-export default function ProductsCard({ productId }) {
+export default function ProductsCard({ productId, products }) {
 
     const { data: reviews = [] } = useGetData(['reviews', productId], () => getReviews(productId));
     const contextData = useContext(containerContext)
@@ -27,10 +27,10 @@ export default function ProductsCard({ productId }) {
     return (
         < >
             {
-                contextData.filteredProducts?.map(product => (
+                products?.map(product => (
                     <div className='w-[33.33%] px-3' key={product.id}>
                         <div className='product-card mb-[45px] group'>
-                            <div className='product-img relative rounded-[10px] mb-[25px] overflow-hidden before:absolute before:content-[""] before:top-0 before:right-0 before:w-0 before:h-full before:border before:border-solid before:border-white before:border-opacity-15 before:transition-all before:duration-500 before:ease-in-out before:rounded-[10px] before:opacity-0 before:bg-[#151b20d6] before:group-hover:opacity-100 before:group-hover:w-full'>
+                            <div className='product-img relative h-[316px] rounded-[10px] mb-[25px] overflow-hidden before:absolute before:content-[""] before:top-0 before:right-0 before:w-0 before:h-full before:border before:border-solid before:border-white before:border-opacity-15 before:transition-all before:duration-500 before:ease-in-out before:rounded-[10px] before:opacity-0 before:bg-[#151b20d6] before:group-hover:opacity-100 before:group-hover:w-full'>
                                 <img src={product.imgUrl} />
                                 <AddToCartButton opacity="opacity-0" product={product} />
                             </div>

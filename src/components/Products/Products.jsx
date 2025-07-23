@@ -1,20 +1,46 @@
 import React, { useEffect, useState, useContext } from 'react'
 import ProductsCard from './ProductsCard';
-import { FiSearch } from "react-icons/fi";
+import SearchInput from '../SearchInput/SearchInput';
 import { useGetData } from '@/hooks/UseGetData';
 import { getProducts } from '@/Utils/Fetchs';
 import Pagination from '../Pagination/Pagination';
 import { useParams } from 'react-router-dom';
 import containerContext from '@/Context/containerContext.js';
 import Sortoptions from '../Sortoptions/Sortoptions';
+import { useNavigate } from 'react-router-dom';
 
 
-const Products = ({ displayCount }) => {
+const Products = ({ displayCount = 8 }) => {
 
-  const contextData = useContext(containerContext)
-
+  const navigate = useNavigate();
+  const contextData = useContext(containerContext);
+  const [searchTerm, setSearchTerm] = useState('');
   const { data, isFetching, refetch } = useGetData(["products"], getProducts);
   const { id } = useParams();
+
+  // توابع جدید برای مدیریت جستجو
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+
+    // بازنشانی صفحه به 1 هنگام جستجو
+    navigate('/Store/Shopgrid/1');
+
+    if (!searchTerm.trim()) {
+      contextData.setFilteredProducts(data || []);
+      return;
+    }
+
+    const term = searchTerm.toLowerCase().trim();
+    const filtered = (data || []).filter(product => {
+      if (product.title.toLowerCase().includes(term)) return true;
+      return product.specs.some(spec =>
+        spec.name.toLowerCase().includes(term) ||
+        spec.value.toLowerCase().includes(term)
+      );
+    });
+
+    contextData.setFilteredProducts(filtered);
+  };
 
   let row = displayCount;
   let endIndex = id ? id * row : 1 * row;
@@ -38,14 +64,16 @@ const Products = ({ displayCount }) => {
       <div className='container'>
         <div className='products-head flex justify-between items-center mb-[45px]'>
           <div className='products-head_right w-[66.66%] flex items-center justify-center bg-transparent'>
-            <form action="#" className='relative w-[50%] pl-3'>
-              <input type="text" placeholder='جست و جو' className='bg-transparent border-b border-b-solid border-b-white border-b-opacity-15 h-[49px] py-[10px] pr-5 pl-[50px] text-base text-[#D2D2D2] w-full border border-solid border-black border-opacity-15 outline-none' />
-              <button className='absolute flex items-center justify-center top-[5px] left-[5px] h-[calc(100%_-_10px)] rounded-[10px] bg-transparent text-white cursor-pointer py-[5px] px-[12.5px]'>
-                <FiSearch />
-              </button>
-            </form>
+            <div className='w-[50%] pl-3'>
+              <SearchInput
+                products={data || []}
+                onSearch={handleSearch}
+              />
+            </div>
             <div className='w-[50%] px-3'>
-              <p className='text-lg text-[#D2D2D2] font-bold'>نمایش همه ۱۲ نتیجه</p>
+              <p className='text-lg text-[#D2D2D2] font-bold'>
+                نمایش {contextData.filteredProducts.length} نتیجه
+              </p>
             </div>
           </div>
           <div className='products-head_left w-[33.33%] px-3 text-left'>
@@ -53,14 +81,20 @@ const Products = ({ displayCount }) => {
           </div>
         </div>
         <div className='products-wrap flex flex-wrap justify-center'>
-          <ProductsCard />
+          <ProductsCard products={displayedDatas} />
         </div>
-        <Pagination
-          items={data}
-          itemsCount={3}
-          pathName="/Store/Shopgrid"
-          setShownDatas={contextData.setFilteredProducts}
-        />
+        {/* نمایش پیام "محصولی یافت نشد" به جای پِیجینیشن */}
+        {searchTerm && contextData.filteredProducts.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-white text-lg">محصولی با مشخصات جستجو شده یافت نشد</p>
+          </div>
+        ) : (
+          <Pagination
+            items={contextData.filteredProducts}
+            itemsCount={displayCount}
+            pathName="/Store/Shopgrid"
+          />
+        )}
       </div>
     </div>
   );

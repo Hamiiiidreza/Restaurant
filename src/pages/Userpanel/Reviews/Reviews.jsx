@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
 import { useGetData } from '@/hooks/UseGetData'
 import { getUserReviews, getProducts } from '@/Utils/Fetchs'
 import containerContext from '@/Context/containerContext';
@@ -25,16 +25,24 @@ export default function Reviews({ userId }) {
         if (userId) refetch();
     }, [userId]);
 
-    if (isLoading) return <div>Loading...</div>;
+    // ایجاد آرایه مرتب‌سازی شده با useMemo
+    const sortedReviews = useMemo(() => {
+        if (!userReviews) return [];
+
+        // ایجاد کپی از آرایه و مرتب‌سازی نزولی بر اساس تاریخ
+        return [...userReviews].sort((a, b) => {
+            return new Date(b.date) - new Date(a.date);
+        });
+    }, [userReviews]);
 
     return (
         <div className='p-8 max-w-full overflow-x-hidden box-border'>
             <h2 className="text-2xl font-bold mb-6 px-2">نظرات شما</h2>
             <div className="space-y-4 mx-auto max-w-[calc(100vw-4rem)] w-full">
-                {userReviews?.length === 0 ? (
+                {sortedReviews?.length === 0 ? (
                     <p className='text-gray-400 px-2'>هنوز نظری ثبت نکرده اید</p>
                 ) : (
-                    userReviews?.map(review => {
+                    sortedReviews?.map(review => {
                         const relatedProduct = products.find(p => p.id === review.productId);
                         return (
                             <div
