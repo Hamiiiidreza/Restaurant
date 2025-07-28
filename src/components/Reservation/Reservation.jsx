@@ -1,4 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-multi-date-picker';
@@ -21,6 +23,7 @@ import { DateObject } from 'react-multi-date-picker';
 import LandingCounter from '../LandingCounter/LandingCounter';
 import StepIndicator from '../StepIndicator/StepIndicator';
 
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Reservation({ isAriz, bgReserv, imgUrl, bgBoxInputs, bgInput, align, imgUrl2 }) {
   const { type } = useParams();
@@ -42,6 +45,51 @@ export default function Reservation({ isAriz, bgReserv, imgUrl, bgBoxInputs, bgI
   const [showBackdrop, setShowBackdrop] = useState(false);
   const [selectedTables, setSelectedTables] = useState({});
   const [showTableModal, setShowTableModal] = useState(false);
+  const containerRef = useRef(null);
+  const reservationRightRef = useRef(null);
+  const reservationLeftRef = useRef(null);
+
+  useEffect(() => {
+    if (!containerRef.current || !reservationRightRef.current || !reservationLeftRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(reservationRightRef.current, {
+        autoAlpha: 0,
+        y: 50
+      }, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.8,
+        delay: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: reservationRightRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none"
+        }
+      });
+
+      // انیمیشن برای بخش چپ
+      gsap.fromTo(reservationLeftRef.current, {
+        autoAlpha: 0,
+        y: 50
+      }, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 1.2,
+        delay: 0.6,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: reservationLeftRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none"
+        }
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
 
   useEffect(() => {
     setValue("date", null);
@@ -575,12 +623,12 @@ export default function Reservation({ isAriz, bgReserv, imgUrl, bgBoxInputs, bgI
       {showFoodModal && <FoodSelectionModal />}
       {
         isAriz ? (
-          <div className={`reservation relative py-[130px] bg-[${bgReserv}] z-10`} >
+          <div className={`reservation relative py-[130px] bg-[${bgReserv}] z-10`} ref={containerRef}>
             <img className='absolute left-0 bottom-[100px] -z-10' src="../Img/reservation-img.webp" alt="reservationimg" />
             <div className='container'>
               <StepIndicator currentStep={1} />
               <div className='reservation-wrap flex items-center justify-between'>
-                <div className='reservation-right w-[60%] -mr-5 px-3'>
+                <div className='reservation-right w-[60%] -mr-5 px-3' ref={reservationRightRef}>
                   <div className='reservation-box flex flex-col items-start justify-start relative p-[50px] mx-[18px] border-[6.5px] border-solid border-white border-opacity-5 before:absolute before:content-[""] before:bg-[url(../Img/reservation-shape.webp)] before:top-[50%] before:right-[-24px] before:w-[42px] before:h-[445px] before:-translate-y-1/2 before:bg-[#12131B] before:bg-no-repeat before:bg-custom-p before:bg-custom-s after:absolute after:content-[""] after:top-[50%] after:w-[42px] after:h-[445px] after:-translate-y-1/2 after:bg-[url(../Img/reservation-shape.webp)] after:bg-[#12131B] after:bg-no-repeat after:bg-custom-p after:bg-custom-s after:left-[-24px]'>
                     <h2 className='text-white text-[40px] font-semibold mb-[35px] '>رزرو کنید</h2>
                     <form
@@ -749,7 +797,7 @@ export default function Reservation({ isAriz, bgReserv, imgUrl, bgBoxInputs, bgI
                     </form>
                   </div>
                 </div>
-                <div className='reservation-left w-[40%]'>
+                <div className='reservation-left w-[40%]' ref={reservationLeftRef}>
                   <div className='reservation-content flex flex-col items-end justify-start'>
                     <h2 className='mb-[18px] text-white text-6xl font-bold w-[468px] leading-tight'>تقویت احساسات شما</h2>
                     <h4 className='mb-[65px] text-white text-2xl font-bold w-[468px] leading-tight'>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</h4>
@@ -775,7 +823,10 @@ export default function Reservation({ isAriz, bgReserv, imgUrl, bgBoxInputs, bgI
             </div>
           </div>
         ) : (
-          <div className={`reservation relative py-[130px] ${bgReserv} bg-center bg-cover bg-no-repeat z-10 after:absolute after:content-[""] after:top-0 after:right-0 after:w-full after:h-full ${type === 'Restaurantmenu' ? 'after:bg-[#151b20f7]' : 'after:bg-[#171f2194]'} after:-z-10`}>
+          <div
+           className={`reservation relative py-[130px] ${bgReserv} bg-center bg-cover bg-no-repeat z-10 after:absolute after:content-[""] after:top-0 after:right-0 after:w-full after:h-full ${type === 'Restaurantmenu' ? 'after:bg-[#151b20f7]' : 'after:bg-[#171f2194]'} after:-z-10`}
+           ref={reservationRightRef}
+           >
             <img className='absolute right-0 top-0 h-full z-10' src={imgUrl2} />
             <img className={`absolute left-0 w-auto ${type === 'Restaurantmenu' ? 'bottom-[150px]' : 'top-0 h-full'} z-10`}
               src={imgUrl}

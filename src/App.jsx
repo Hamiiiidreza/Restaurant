@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { useRoutes, useNavigate } from 'react-router-dom';
+import { useRoutes, useNavigate, useLocation } from 'react-router-dom';
 import routes from './routes';
 import './App.css';
 import { useQueryClient } from '@tanstack/react-query';
@@ -14,12 +14,15 @@ import { DateObject } from 'react-multi-date-picker';
 import { useToast } from './hooks/use-toast';
 import { ToastAction } from './components/ui/toast';
 import { useCookies } from 'react-cookie';
+import { gsap } from 'gsap/gsap-core';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 function App() {
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const location = useLocation();
 
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -53,6 +56,18 @@ function App() {
       setShowSkeleton(false);
     }, 2000);
   }, []);
+
+
+  useEffect(() => {
+    // ریست ScrollTrigger هنگام تغییر مسیر
+    ScrollTrigger.refresh();
+
+    // پاکسازی انیمیشن‌های قبلی
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      gsap.killTweensOf(window);
+    };
+  }, [location.pathname]);
 
 
   useEffect(() => {

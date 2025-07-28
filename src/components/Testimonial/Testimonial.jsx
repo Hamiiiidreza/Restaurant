@@ -1,10 +1,43 @@
-import React from 'react'
-import { IoIosArrowForward  } from "react-icons/io";
+import React, { useRef, useEffect } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Testimonial({ bgColor }) {
+
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        if (!containerRef.current) return;
+
+        const ctx = gsap.context(() => {
+            gsap.fromTo(containerRef.current, {
+                autoAlpha: 0,
+                y: 50
+            }, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                }
+            });
+        }, containerRef);
+
+        return () => ctx.revert();
+    }, []);
+
     return (
-        <div className={`testimonial relative py-[130px] bg-[${bgColor}] overflow-hidden`}>
+        <div
+            className={`testimonial relative py-[130px] bg-[${bgColor}] overflow-hidden`}
+            ref={containerRef}
+        >
             <img className='absolute bottom-[65px] opacity-10 right-0' src="https://rtlme.ir/Etar/assets/img/shape-12.webp" alt="testimonialshape1" />
             <img className='absolute top-[45px] right-[52%] translate-x-1/2 opacity-10' src="https://rtlme.ir/Etar/assets/img/shape-13.webp" alt="testimonialshape2" />
             <div className='container relative'>

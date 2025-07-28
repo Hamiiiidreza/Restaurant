@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const products = {
     دسر: [
@@ -23,8 +25,56 @@ const products = {
     ]
 }
 
+gsap.registerPlugin(ScrollTrigger);
+
+
 const Recipemenu = () => {
     const [activeMenu, setActiveMenu] = useState('خوراک');
+    const containerRef = useRef(null);
+    const menuRightRef = useRef(null);
+    const menuLeftRef = useRef(null);
+
+    useEffect(() => {
+        if (!containerRef.current || !menuRightRef.current || !menuLeftRef.current) return;
+
+        const ctx = gsap.context(() => {
+            // انیمیشن برای بخش راست با تأخیر بیشتر
+            gsap.fromTo(menuRightRef.current, {
+                autoAlpha: 0,
+                y: 50
+            }, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.8,
+                delay: 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: menuRightRef.current,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                }
+            });
+
+            // انیمیشن برای بخش چپ
+            gsap.fromTo(menuLeftRef.current, {
+                autoAlpha: 0,
+                y: 50
+            }, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 1.2,
+                delay: 0.6,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: menuLeftRef.current,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                }
+            });
+        }, containerRef);
+
+        return () => ctx.revert();
+    }, []);
 
     const handleMenuClick = (menu) => {
         setActiveMenu(menu);
@@ -32,18 +82,22 @@ const Recipemenu = () => {
 
 
     return (
-        <div className='recipe-menu relative pt-[130px] pb-[100px] z-10 bg-[#12131B] '>
+        <div className='recipe-menu relative pt-[130px] pb-[100px] z-10 bg-[#12131B]' ref={containerRef}>
             <img className='absolute -z-10 right-0 bottom-0' src="../../Public/Img/recipe-img-1.webp" alt="recipeimg1" />
             <img className='absolute -z-10 bottom-[57px] left-0' src="https://rtlme.ir/Etar/assets/img/shape-9.webp" alt="recipeshape" />
             <div className='container'>
                 <div className='recipe-menu-wrap flex items-start justify-between'>
-                    <div className='recipe-menu_right w-[40%] px-3'>
+                    <div
+                        className='recipe-menu_right w-[40%] px-3'
+                        ref={menuRightRef}>
                         <h2 className='text-white text-6xl mb-5 font-bold '>منوی رستوران</h2>
                         <div>
                             <img className='w-[468px] h-[426px] object-custom-x2' src="../../Public/Img/recipe-img-2.webp" alt="recipeimg2" />
                         </div>
                     </div>
-                    <div className='recipe-menu_left w-[60%] px-3 grow'>
+                    <div
+                        className='recipe-menu_left w-[60%] px-3 grow'
+                        ref={menuLeftRef}>
                         <div className='recipe-menu_wrapper'>
                             <div className='flex items-center justify-between mb-[74px]'>
                                 <ul className='flex items-center'>
