@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default function Header() {
   return (
-    <div className='header relative pt-[120px] px-0 pb-[140px] z-10 overflow-hidden mt-[99px]'>
+    <div className='header relative pt-[120px] px-0 pb-[140px] z-10 overflow-hidden'>
         <img className='absolute max-w-full h-auto bottom-[7.5%] right-0' src="../../Public/Img/header-img-1.webp" alt="headerimg1" />
         <img className='absolute max-w-full h-auto top-[4%] right-0' src="https://rtlme.ir/Etar/assets/img/hero/hero-bg-shape.webp" alt="headershape" />
        <div className='container relative'>

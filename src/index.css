@@ -8,5 +8,6 @@ body {
   color: #D2D2D2;
   background-color: #0C0D12;
   padding-top: -200px;
+  overflow: hidden;
 }
 

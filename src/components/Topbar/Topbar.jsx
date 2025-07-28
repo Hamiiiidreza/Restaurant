@@ -127,7 +127,7 @@ export default function Topbar() {
 
   return (
     <>
-      <div className='topbar fixed bg-[#12131B] border-b border-b-[#27282C] w-full h-[100px] z-50 top-0 right-0 left-0'>
+      <div className='topbar sticky bg-[#12131B] border-b border-b-[#27282C] w-full h-[100px] z-50 top-0 right-0 left-0'>
         <div className='container h-full'>
           <nav className='flex items-center justify-between flex-wrap h-full'>
             <Link to="/" className='pt-[0.3125rem] pb-[0.3125rem] text-xl whitespace-nowrap'>
