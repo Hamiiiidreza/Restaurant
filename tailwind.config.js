@@ -91,8 +91,9 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				growImg: 'growImg 0.3s cubic-bezier(0,0,.7,1)',
-				slideIn: 'slideIn 0.3s ease-out',
-				fadeIn: '0.3s ease-out forwards',
+				slideIn: 'slideIn 0.3s ease-out forwards',
+				fadeIn: 'fadeIn 0.3s ease-out forwards',
+				spin: 'spin 1s linear infinite',
 			},
 			keyframes: {
 				float: {
@@ -156,6 +157,11 @@ export default {
 						transform: 'translateY(0) scale(1)',
 					}
 				},
+				spin: {
+					from: { transform: 'rotate(0deg)' },
+					to: { transform: 'rotate(360deg)' },
+				},
+
 			},
 			width: {
 				custom: 'calc(100%-100px)'
