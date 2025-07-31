@@ -16,6 +16,7 @@ import { ToastAction } from './components/ui/toast';
 import { useCookies } from 'react-cookie';
 import { gsap } from 'gsap/gsap-core';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Loader from './components/Loader/Loader';
 
 function App() {
 
@@ -48,6 +49,9 @@ function App() {
     reservedDates: []
   });
   const [showSkeleton, setShowSkeleton] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  // افزودن بررسی مسیر برای تعیین لودر
+  const isUserPanel = location.pathname.startsWith('/my-account');
 
   // تابع برای شروع نمایش اسکلتون
   const startSkeleton = useCallback(() => {
@@ -67,6 +71,18 @@ function App() {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       gsap.killTweensOf(window);
     };
+  }, [location.pathname]);
+
+  useEffect(() => {
+    // حالت لودینگ را فعال کن
+    setIsLoading(true);
+
+    // مدت زمان نمایش لودر: 1 ثانیه
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, [location.pathname]);
 
 
@@ -683,6 +699,7 @@ function App() {
       showSkeleton,
       startSkeleton,
     }}>
+      {!isUserPanel && <Loader isLoading={isLoading} />}
       {router}
     </containerContext.Provider>
   )

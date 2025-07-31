@@ -414,7 +414,7 @@ export default function Reservation({ isAriz, bgReserv, imgUrl, bgBoxInputs, bgI
           className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90%] scrollbar-minimal max-w-2xl bg-[#242a38] rounded-lg shadow-xl
           ${showFoodModal ? 'block' : 'hidden'}`}
         >
-          <div className="p-6">
+          <div className="p-6 animate-slideIn">
             <h3 className="text-white text-xl font-bold mb-4">انتخاب غذاها</h3>
             <div className="max-h-[70vh] min-h-[200px] overflow-y-auto hide-scrollbar p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
@@ -534,7 +534,7 @@ export default function Reservation({ isAriz, bgReserv, imgUrl, bgBoxInputs, bgI
                 ${showTableModal ? 'block' : 'hidden'}`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="p-6">
+          <div className="p-6 animate-slideIn">
             <h3 className="text-white text-xl font-bold mb-4">انتخاب میزها</h3>
             <div className="max-h-[60vh] overflow-y-auto">
               {contextData.availableTables?.map(table => {
