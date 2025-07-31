@@ -691,31 +691,6 @@
           "imgUrl": "../../Public/Img/product-img-8.webp",
           "price": "115000",
           "count": 1
-        },
-        {
-          "id": "18",
-          "title": "زرشک پلو با مرغ",
-          "specs": [
-            {
-              "name": "پاستا",
-              "value": "اسپاگتی"
-            },
-            {
-              "name": "گوشت",
-              "value": "میگو"
-            },
-            {
-              "name": "وزن",
-              "value": "400 گرم"
-            },
-            {
-              "name": "ادویه",
-              "value": "دارد"
-            }
-          ],
-          "imgUrl": "../../Public/Img/product-img-18.webp",
-          "price": "250000",
-          "count": 1
         }
       ]
     }
