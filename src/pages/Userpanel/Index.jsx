@@ -148,7 +148,7 @@ export default function Index() {
                         <HiOutlineLogin className='size-6' />
                     </a>
                 </aside>
-                <section className='w-full mr-[21%] overflow-x-hidden'>
+                <section className='w-full mr-[21%]'>
                     <header className='flex items-center justify-between dark:bg-[#151B20] bg-gray-200 p-7 mb-8 transition-colors duration-300'>
                         <div className='flex items-center'>
                             <Link to="/" className='pl-6 ml-6 border-l border-l-neutral-200 border-opacity-20 gap-x-2'>
