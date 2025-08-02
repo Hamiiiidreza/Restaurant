@@ -85,6 +85,12 @@ function App() {
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
+  // مدیریت اسکرول در روت‌های مختلف
+  useEffect(() => {
+    document.body.style.overflow = 'auto';
+    document.body.style.paddingRight = '0';
+  }, [location.key]);
+
 
   useEffect(() => {
     const loadTables = async () => {
