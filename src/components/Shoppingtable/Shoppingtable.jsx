@@ -95,14 +95,20 @@ export default function Shoppingtable() {
                       Array.isArray(contextData.userCart) && [...contextData.userCart].reverse().map((product) => {
                         console.log(product);
                         return (
-                          <tr className='w-full text-right pr-0 py-[18px] pl-5 border-b border-white border-opacity-10' key={product.id}>
+                          <tr className='w-full text-right pr-0 py-[18px] pl-5 border-b border-white border-opacity-10'
+                            key={product.id}
+                          >
                             <td className='text-right pr-0 py-[18px] px-5'>
                               <div className='rounded-[5px] overflow-hidden text-right h-[74px]'>
                                 <img className='w-[77px] h-[74px] rounded-[5px] overflow-hidden' src={product.imgUrl} alt='' />
                               </div>
                             </td>
                             <td className='text-right py-[18px] px-5'>
-                              <a className='text-lg text-white font-bold' href="#">{product.title}</a>
+                              <Link
+                                to={`/Store/Shopdetails/${product.id}`}
+                                className='text-lg text-white font-bold'>
+                                {product.title}
+                              </Link>
                             </td>
                             <td className='text-right text-lg text-white font-bold py-[18px] px-5'>{formatPrice(product.price)} تومان</td>
                             <td className='text-right py-[18px] px-5'>
