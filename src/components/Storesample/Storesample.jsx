@@ -32,7 +32,7 @@ export default function Storesample() {
 
     const product = products?.find(p => p.id === (productId));
 
-    const productInCart = contextData.userCart?.find(item => item.id === product.id);
+    const productInCart = contextData.userCart?.find(item => item.id === product?.id);
     const productCount = productInCart?.count || 0;
 
     const reviewSchema = yup.object().shape({
