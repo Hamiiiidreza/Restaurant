@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 
 export default function LandingCounter({ count }) {
-  const [Counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
-    let interval = setInterval(() => {
-      setCounter((prev) => prev + 1);
+    if (counter >= count) return; // توقف وقتی به مقدار هدف رسید
+
+    const increment = Math.ceil(count / 100); // افزایش پویا بر اساس مقدار نهایی
+    const interval = setInterval(() => {
+      setCounter(prev => {
+        const next = prev + increment;
+        return next >= count ? count : next; // جلوگیری از عبور از مقدار نهایی
+      });
     }, 30);
 
-    if (Counter === count) {
-      clearInterval(interval);
-    }
-
     return () => clearInterval(interval);
-  }, [Counter]);
+  }, [count]); // وابستگی به prop ورودی
 
-  return <span>{Counter}</span>;
+  return <span>{counter}</span>;
 }
