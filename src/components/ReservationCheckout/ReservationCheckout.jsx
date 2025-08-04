@@ -170,6 +170,10 @@ export default function ReservationCheckout() {
         }
     };
 
+    const handleBack = () => {
+        navigate('/my-account/ReservationCart'); // مسیر سبد رزرو (استپ 2)
+    };
+
     return (
         <div className='reservation-checkout py-[100px]'>
             <div className="container">
@@ -290,22 +294,31 @@ export default function ReservationCheckout() {
                         مبلغ قابل پرداخت: {calculateTotal().toLocaleString('fa-IR')} تومان
                     </div>
 
-                    <button
-                        onClick={handlePayment}
-                        disabled={isProcessing}
-                        className="bg-orange-250 text-white px-6 py-3 rounded hover:bg-orange-300 transition w-full"
-                    >
-                        {isProcessingPayment ? (
-                            <div className="flex items-center justify-center gap-2">
-                                <Loader2 className="animate-spin h-5 w-5" />
-                                <span>در حال پرداخت...</span>
-                            </div>
-                        ) : isProcessing ? (
-                            <Loader2 className="animate-spin h-5 w-5 mx-auto" />
-                        ) : (
-                            'تأیید و پرداخت'
-                        )}
-                    </button>
+                    <div className="flex justify-center mt-6 gap-4">
+                        <button
+                            onClick={handleBack}
+                            disabled={isProcessing}
+                            className="px-6 py-3 bg-gray-600 text-white flex items-center justify-center rounded-lg hover:bg-gray-700 transition-colors"
+                        >
+                            بازگشت
+                        </button>
+                        <button
+                            onClick={handlePayment}
+                            disabled={isProcessing}
+                            className="px-6 py-3 bg-orange-250 text-white flex items-center justify-center rounded-lg hover:bg-orange-300 transition-colors"
+                        >
+                            {isProcessingPayment ? (
+                                <div className="flex items-center justify-center gap-2">
+                                    <Loader2 className="animate-spin h-5 w-5" />
+                                    <span>در حال پرداخت...</span>
+                                </div>
+                            ) : isProcessing ? (
+                                <Loader2 className="animate-spin h-5 w-5 mx-auto" />
+                            ) : (
+                                'تأیید و پرداخت'
+                            )}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

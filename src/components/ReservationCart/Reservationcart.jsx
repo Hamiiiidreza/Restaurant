@@ -157,6 +157,10 @@ export default function ReservationCart() {
         }, 0);
     };
 
+    const handleBack = () => {
+        navigate('/Plate/Bookatable'); // مسیر صفحه رزرو (استپ 1)
+    };
+
     return (
         <div className='reservation-cart py-[100px]'>
             <div className='container px-10'>
@@ -297,6 +301,12 @@ export default function ReservationCart() {
                                 </div>
 
                                 <div className="mt-6 flex gap-4 justify-center">
+                                    <button
+                                        onClick={handleBack}
+                                        className="px-6 py-3 bg-gray-600 text-white flex items-center justify-center rounded-lg hover:bg-gray-700 transition-colors"
+                                    >
+                                        بازگشت
+                                    </button>
                                     <button
                                         onClick={handleApplyChanges}
                                         className="px-6 py-3 bg-orange-250 text-white flex items-center justify-center rounded-lg hover:bg-orange-300 transition-colors"
